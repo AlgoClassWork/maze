@@ -24,6 +24,17 @@ class GameSprite(sprite.Sprite):
         if keys[K_d] and self.rect.x < 600:
             self.rect.x += self.speed
 
+    #Функция для патрулирования
+    def auto_move(self):
+        if self.rect.x <= 200:
+            self.direction = 'right'
+        if self.rect.x >= 500:
+            self.direction = 'left'
+        if self.direction == 'left':
+            self.rect.x -= self.speed
+        else:
+            self.rect.x += self.speed
+
 class Wall(sprite.Sprite):
     def __init__(self, width, height, x, y):
         super().__init__()
@@ -42,7 +53,7 @@ wall_2 = Wall(400, 10, 150, 150)
 wall_3 = Wall(400, 10, 300, 300)
 #Создание персонажей
 hero = GameSprite('hero.png', 80, 80, 0, 400, 3)
-enemy = GameSprite('enemy.png', 80, 80, 600, 300, 1)
+enemy = GameSprite('enemy.png', 80, 80, 500, 400, 1)
 goal = GameSprite('goal.png', 80, 80, 600, 400, 0)
 #Создание экрана
 WINDOW_WIDTH = 700
@@ -55,6 +66,8 @@ BACKGROUND = transform.scale(image.load('background.jpg') , (WINDOW_WIDTH, WINDO
 #mixer.init()
 #mixer.music.load('music.mp3')
 #mixer.music.play()
+# Создание часиков для контроля кадров
+clock = time.Clock()
 #Игровой цикл
 while True:
     # Обработка выхода из игры 
@@ -73,5 +86,7 @@ while True:
     wall_3.show()
     # Движение персонажей
     hero.move()
+    enemy.auto_move()
     # Обновление кадров
     display.update()
+    clock.tick(60)
