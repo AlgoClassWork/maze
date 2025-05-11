@@ -12,6 +12,18 @@ class GameSprite(sprite.Sprite):
     def show(self):
         window.blit( self.image, (self.rect.x, self.rect.y) )
 
+    #Функция для передвижения с помощью клавиатуры
+    def move(self):
+        keys = key.get_pressed()
+        if keys[K_w] and self.rect.y > 0:
+            self.rect.y -= self.speed
+        if keys[K_s] and self.rect.y < 400:
+            self.rect.y += self.speed
+        if keys[K_a] and self.rect.x > 0:
+            self.rect.x -= self.speed
+        if keys[K_d] and self.rect.x < 600:
+            self.rect.x += self.speed
+
 class Wall(sprite.Sprite):
     def __init__(self, width, height, x, y):
         super().__init__()
@@ -59,5 +71,7 @@ while True:
     wall_1.show()
     wall_2.show()
     wall_3.show()
+    # Движение персонажей
+    hero.move()
     # Обновление кадров
     display.update()
