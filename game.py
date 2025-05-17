@@ -66,27 +66,45 @@ BACKGROUND = transform.scale(image.load('background.jpg') , (WINDOW_WIDTH, WINDO
 #mixer.init()
 #mixer.music.load('music.mp3')
 #mixer.music.play()
+# Создание надписей
+font.init()
+my_font = font.Font('Myfont.otf', 110)
+lose_text = my_font.render('Ты проиграл', 1, (255, 0, 0))
 # Создание часиков для контроля кадров
 clock = time.Clock()
 #Игровой цикл
+not_stop = True
 while True:
     # Обработка выхода из игры 
     for some_event in event.get():
         if some_event.type == QUIT:
             exit()
-    # Отображение заднего фона
-    window.blit( BACKGROUND , (0, 0) )
-    # Отображение персонажей
-    hero.show()
-    enemy.show()
-    goal.show()
-    # Отображение стен
-    wall_1.show()
-    wall_2.show()
-    wall_3.show()
-    # Движение персонажей
-    hero.move()
-    enemy.auto_move()
+
+    if not_stop:
+        # Отображение заднего фона
+        window.blit( BACKGROUND , (0, 0) )
+        # Отображение персонажей
+        hero.show()
+        enemy.show()
+        goal.show()
+        # Отображение стен
+        wall_1.show()
+        wall_2.show()
+        wall_3.show()
+        # Движение персонажей
+        hero.move()
+        enemy.auto_move()
+        # Обработка столкновений
+        for wall in [wall_1, wall_2, wall_3]:
+            if sprite.collide_rect(hero, wall):
+                hero.rect.x = 0
+                hero.rect.y = 400
+
+        if sprite.collide_rect(hero, enemy):
+            window.blit(lose_text, (50,200))
+            not_stop = False
+            
+
     # Обновление кадров
     display.update()
     clock.tick(60)
