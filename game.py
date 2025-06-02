@@ -16,6 +16,9 @@ hero = GameSprite(img='hero.png', cord_x=0, cord_y=400, width=80, height=100)
 enemy = GameSprite(img='enemy.png', cord_x=600, cord_y=200, width=100, height=80)
 goal = GameSprite(img='goal.png', cord_x=600, cord_y=420, width=100, height=80)
 
+wall_1 = GameSprite(img='wall.png', cord_x=150, cord_y=150, width=10, height=400)
+wall_2 = GameSprite(img='wall.png', cord_x=150, cord_y=150, width=400, height=10)
+
 # Создание экрана
 window = display.set_mode( (700, 500) )
 
@@ -34,5 +37,7 @@ while True:
     enemy.show()
     goal.show()
 
+    wall_1.show()
+    wall_2.show()
     # Постоянное обновление кадров на нашем экране
     display.update()
