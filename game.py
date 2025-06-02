@@ -10,6 +10,17 @@ class GameSprite(sprite.Sprite):
     # Способность отображатся
     def show(self):
         window.blit( self.image, (self.rect.x, self.rect.y) )
+    # Способность передвигаться
+    def move(self):
+        keys = key.get_pressed()
+        if keys[K_w] and self.rect.y > 0:
+            self.rect.y -= 1
+        if keys[K_s] and self.rect.y < 400:
+            self.rect.y += 1
+        if keys[K_a] and self.rect.x > 0:
+            self.rect.x -= 1
+        if keys[K_d] and self.rect.x < 620:
+            self.rect.x += 1
 
 # Создание персонажей
 hero = GameSprite(img='hero.png', cord_x=0, cord_y=400, width=80, height=100)
@@ -39,5 +50,9 @@ while True:
 
     wall_1.show()
     wall_2.show()
+
+    # Движение персонажей
+    hero.move()
+
     # Постоянное обновление кадров на нашем экране
     display.update()
