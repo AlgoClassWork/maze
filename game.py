@@ -45,6 +45,11 @@ walls = [wall_1, wall_2]
 # Создание экрана
 window = display.set_mode( (700, 500) )
 
+font.init()
+my_font = font.Font('Myfont.otf', 100)
+win_text = my_font.render('ПОБЕДА', True, (0, 255, 0) )
+lose_text = my_font.render('ПРОИГРЫШ', True, (255, 0, 0) )
+
 clock = time.Clock()
 
 finish = False
@@ -55,6 +60,13 @@ while True:
     for some_event in event.get():
         if some_event.type == QUIT:
             exit()
+        elif some_event.type == KEYDOWN:
+            if some_event.key == K_r and finish == True:
+                hero.rect.x = 0
+                hero.rect.y = 400
+                finish = False
+
+    
 
     if not finish:
         # Заливка фона определенным цветом
@@ -80,11 +92,11 @@ while True:
 
         if sprite.collide_rect(hero, enemy):
             finish = True
-            print('ты проиграл')
+            window.blit(lose_text, (100, 200))
 
         if sprite.collide_rect(hero, goal):
             finish = True
-            print('ты победил')
+            window.blit(win_text, (100, 200))
 
     # Постоянное обновление кадров на нашем экране
     display.update()
