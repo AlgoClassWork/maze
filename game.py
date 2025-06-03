@@ -44,11 +44,16 @@ walls = [wall_1, wall_2]
 
 # Создание экрана
 window = display.set_mode( (700, 500) )
+display.set_caption('Лабиринт')
 
 font.init()
 my_font = font.Font('Myfont.otf', 100)
 win_text = my_font.render('ПОБЕДА', True, (0, 255, 0) )
 lose_text = my_font.render('ПРОИГРЫШ', True, (255, 0, 0) )
+
+#mixer.init()
+#mixer.music.load('music.mp3')
+#mixer.music.play()
 
 clock = time.Clock()
 
@@ -66,7 +71,6 @@ while True:
                 hero.rect.y = 400
                 finish = False
 
-    
 
     if not finish:
         # Заливка фона определенным цветом
