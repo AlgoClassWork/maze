@@ -14,13 +14,13 @@ class GameSprite(sprite.Sprite):
     def move(self):
         keys = key.get_pressed()
         if keys[K_w] and self.rect.y > 0:
-            self.rect.y -= 1
+            self.rect.y -= 3
         if keys[K_s] and self.rect.y < 400:
-            self.rect.y += 1
+            self.rect.y += 3
         if keys[K_a] and self.rect.x > 0:
-            self.rect.x -= 1
+            self.rect.x -= 3
         if keys[K_d] and self.rect.x < 620:
-            self.rect.x += 1
+            self.rect.x += 3
 
     def auto_move(self):
         if self.rect.x <= 300:
@@ -40,11 +40,14 @@ goal = GameSprite(img='goal.png', cord_x=600, cord_y=420, width=100, height=80)
 
 wall_1 = GameSprite(img='wall.png', cord_x=150, cord_y=150, width=10, height=400)
 wall_2 = GameSprite(img='wall.png', cord_x=150, cord_y=150, width=400, height=10)
+walls = [wall_1, wall_2]
 
 # Создание экрана
 window = display.set_mode( (700, 500) )
 
 clock = time.Clock()
+
+finish = False
 
 # Игровой цикл
 while True:
@@ -53,20 +56,35 @@ while True:
         if some_event.type == QUIT:
             exit()
 
-    # Заливка фона определенным цветом
-    window.fill( (150, 150, 250) )
+    if not finish:
+        # Заливка фона определенным цветом
+        window.fill( (150, 150, 250) )
 
-    # Отображение персонажей
-    hero.show()
-    enemy.show()
-    goal.show()
+        # Отображение персонажей
+        hero.show()
+        enemy.show()
+        goal.show()
 
-    wall_1.show()
-    wall_2.show()
+        wall_1.show()
+        wall_2.show()
 
-    # Движение персонажей
-    hero.move()
-    enemy.auto_move()
+        # Движение персонажей
+        hero.move()
+        enemy.auto_move()
+
+        # Проверка столкновений
+        for wall in walls:
+            if sprite.collide_rect(hero, wall):
+                hero.rect.x = 0
+                hero.rect.y = 400
+
+        if sprite.collide_rect(hero, enemy):
+            finish = True
+            print('ты проиграл')
+
+        if sprite.collide_rect(hero, goal):
+            finish = True
+            print('ты победил')
 
     # Постоянное обновление кадров на нашем экране
     display.update()
